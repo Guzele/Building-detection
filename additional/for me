@@ -1,0 +1,55 @@
+
+opencv_createsamples -vec samples.vec -h 20 -w 20
+
+opencv_createsamples -info positives.dat -bg bg.txt -w 12 -h 12 -vec samples.vec -num 3165 
+opencv_createsamples -info positives.dat -bg bg.txt -w 20 -h 20 -vec samples.vec -num 5000 
+
+opencv_traincascade -data windowsCascade3 -vec samples.vec -bg bg.txt -numPos 2600 -numNeg 3738 -numStages 12 -featureType LBP -w 12 -h 12 -bt GAB
+
+opencv_traincascade -data cascade1 -vec samples.vec -bg bg.txt -numPos 650 -numNeg 2411 -numStages 12 -featureType LBP -w 20 -h 20 -bt GAB
+
+
+opencv_traincascade -data windowsCascade -vec samples.vec -bg bg.txt -numPos 3165 -numNeg 2440 -numStages 1 -featureType LBP -w 12 -h 12 -bt GAB 
+
+
+opencv_traincascade -data windowsCascade3 -vec samples.vec -bg bg.txt -numPos 650 -numNeg 3738 -numStages 20 -featureType HAAR -w 20 -h 20 -bt GAB -minhitrate 0.999 -maxFalseAlarmRate 0.5 -precalcValBufSize 2048 -precalcIdxBufSize 2048
+
+
+precalcValBufSize <precalculated_vals_buffer_size_in_Mb>
+
+Size of buffer for precalculated feature values (in Mb).
+
+-precalcIdxBufSize <precalculated_idxs_buffer_size_in_Mb>
+
+Size of buffer for precalculated feature indices (in Mb). The more memory you have the faster the training process.
+
+-featureType <{HAAR(default), LBP}>
+
+-minHitRate <min_hit_rate>
+
+Minimal desired hit rate for each stage of the classifier. Overall hit rate may be estimated as (min_hit_rate ^ number_of_stages) [Viola2004].
+
+-maxFalseAlarmRate <max_false_alarm_rate>
+
+Maximal desired false alarm rate for each stage of the classifier. Overall false alarm rate may be estimated as (max_false_alarm_rate ^ number_of_stages) [Viola2004].
+
+-weightTrimRate <weight_trim_rate>
+
+Specifies whether trimming should be used and its weight. A decent choice is 0.95.
+
+-maxDepth <max_depth_of_weak_tree>
+
+Maximal depth of a weak tree. A decent choice is 1, that is case of stumps.
+
+-maxWeakCount <max_weak_tree_count>
+
+
+Maximal count of weak trees for every cascade stage. The boosted classifier (stage) will have so many weak trees (<=maxWeakCount), as needed to achieve the given -maxFalseAlarmRate.
+
+Haar-like feature parameters:
+
+-mode <BASIC (default) | CORE | ALL>
+
+Selects the type of Haar features set used in training. BASIC use only upright features, while ALL uses the full set of upright and 45 degree rotated feature set. See [Rainer2002] for more details.
+
+

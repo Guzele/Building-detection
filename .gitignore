@@ -1,0 +1,6 @@
+*~
+*.pyc
+all/*
+*/jpg/*
+*/additional/*
+*/cascade*/*
